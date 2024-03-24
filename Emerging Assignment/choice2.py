@@ -14,17 +14,12 @@ def fetchUserData(tokenData):
         response = requests.get(url, headers=headers)
         
         #Check if the response status code indicates success(200) 
-        if response.status_code != 200:
-            #Error message
-            print("Failed to connect to the server. Please try again.")
-            print("____________________________________________________")
-        else:
+        if response.status_code == 200:
             #Extract user data from the response
             webexUser = response.json()
 
-            #Print the output
-            print("")
-            print("--------------------------------")
+            #Print the user information
+            print("\n--------------------------------")
             print("User Data Retrieved Successfully")
             print("--------------------------------")
             print("User Information:")
@@ -36,8 +31,7 @@ def fetchUserData(tokenData):
 
             while True:
                 #Offer options to the user after successful connection
-                print("")
-                print("--------------------------")
+                print("\n--------------------------")
                 print("| 1 | Back To Menu        |")
                 print("| 2 | Exit                |")
                 print("--------------------------")
@@ -46,12 +40,14 @@ def fetchUserData(tokenData):
                 if nav == 1:
                     return
                 elif nav == 2:
-                    print("")
-                    print("Exiting...")
+                    print("\nExiting...")
                     os._exit(0)
                 else:
-                    print("")
-                    print("* Invalid choice. Please enter 1 or 2. *")
+                    print("\n* Invalid choice. Please enter 1 or 2. *")
+        else:
+            #Error message
+            print("\nFailed to connect to the server. Please try again.")
+            print("--------------------------------------------------")
 
     #Handle exceptions that might occur during the execution of the code
     except Exception as e:

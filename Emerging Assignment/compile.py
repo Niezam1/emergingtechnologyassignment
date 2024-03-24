@@ -1,13 +1,35 @@
-import requests, os
+import requests
+import os
 
-# call file
+# Import functions
 from choice1 import fetchData
 from choice2 import fetchUserData
 from choice3 import fetchRoomData
 from choice4 import createRoom
 from choice5 import sendMessageToRoom
 
-#Menu
+def get_user_input(prompt):
+    """
+    Helper function to get user input with clear prompt.
+    """
+    return input(prompt).strip()
+
+def display_menu():
+    """
+    Function to display the menu options.
+    """
+    print("\n================================")
+    print("|             MENU              |")
+    print("--------------------------------")
+    print("| 0 | Test Connection To Webex  |")
+    print("| 1 | Fetch User Data           |")
+    print("| 2 | Fetch Room Data           |")
+    print("| 3 | Create Room               |")
+    print("| 4 | Send Message To Room      |")
+    print("| 5 | Exit                      |")
+    print("================================")
+
+# Main program
 print("====================")
 print("       WEBEX       ")
 print("====================")
@@ -15,72 +37,50 @@ print("====================")
 try:
     tokenData = ""
 
+    # Prompt user for token
     while True:
-        #Prompt user for token
-        tokenData = input("Enter the token: ")
+        tokenData = get_user_input("Enter the token: ")
 
-        #Verify token by making a request to Webex API
+        # Verify token by making a request to Webex API
         url = 'https://webexapis.com/v1/people/me'
 
-        #Prepare the header for authorization token
-        headers = {
-            'Authorization' : 'Bearer {}'.format(tokenData)
-        }
+        # Prepare the header for authorization token
+        headers = {'Authorization': 'Bearer {}'.format(tokenData)}
 
         response = requests.get(url, headers=headers)
 
-        #Check response status
+        # Check response status
         if response.status_code == 200:
             break
         else:
-            #error message
-            print("Failed to connect to the server. Please try again.")
-            print("____________________________________________________")
+            # Error message for failed connection
+            print("\nFailed to connect to the server. Please try again.")
+            print("--------------------------------------------------")
 
     while True:
-        print("")
-        print("")
+        display_menu()
+        
+        try:
+            select = int(get_user_input("Enter your choice: "))
 
-        #Display menu options
-        print("================================")
-        print("|             MENU              |")
-        print("--------------------------------")
-        print("| 0 | Test Connection To Webex  |")
-        print("| 1 | Fetch User Data           |")
-        print("| 2 | Fetch Room Data           |")
-        print("| 3 | Create Room               |")
-        print("| 4 | Send Message To Room      |")
-        print("| 5 | Exit                      |")
-        print("================================")
+            if select == 0:
+                fetchData(tokenData)
+            elif select == 1:
+                fetchUserData(tokenData)
+            elif select == 2:
+                fetchRoomData(tokenData)
+            elif select == 3:
+                createRoom(tokenData)
+            elif select == 4:
+                sendMessageToRoom(tokenData)
+            elif select == 5:
+                print("\nExiting...")
+                os._exit(0)
+            else:
+                print("\nInvalid choice. Please enter a number between 0 and 5.")
+        except ValueError:
+            print("\nInvalid input. Please enter a number.")
 
-        select = int(input("Enter your choice: "))
-
-        #User chooses option 0
-        if select == 0:
-            fetchData(tokenData)
-
-        #User chooses option 1
-        if select == 1:
-            fetchUserData(tokenData)
-
-        #User chooses option 2
-        if select == 2:
-            fetchRoomData(tokenData)
-
-        #User chooses option 3
-        if select == 3:
-            createRoom(tokenData)
-
-        #User chooses option 4
-        if select == 4:
-            sendMessageToRoom(tokenData)
-
-        #User chooses option 5
-        if select == 5:
-            print("")
-            print("Exiting...")
-            os._exit(1)
-
-#Handle exceptions that might occur during the execution of the code
+# Handle exceptions that might occur during the execution of the code
 except Exception as e:
-    print("An error occurred:", e)
+    print("\nAn error occurred:", e)

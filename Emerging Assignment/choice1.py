@@ -16,21 +16,17 @@ def fetchData(tokenData):
         #Check if the response status code indicates success(200)
         if response.status_code != 200:
             #error message
-            print("")
-            print("****************************************************")
-            print("Failed to connect to the server. Please try again.")
-            print("____________________________________________________")
+            print("\nFailed to connect to the server. Please try again.")
+            print("--------------------------------------------------")
         else:
             #success message
-            print("")
-            print("************************")
+            print("\n************************")
             print(" Successfully Connected ")
             print("************************")
             
             while True:
                 #Offer options to the user after successful connection
-                print("")
-                print("--------------------------")
+                print("\n--------------------------")
                 print("| 1 | Back To Menu        |")
                 print("| 2 | Exit                |")
                 print("--------------------------")
@@ -39,12 +35,10 @@ def fetchData(tokenData):
                 if nav == 1:
                     return
                 elif nav == 2:
-                    print("")
-                    print("Exiting...")
+                    print("\nExiting...")
                     os._exit(0)
                 else:
-                    print("")
-                    print("* Invalid choice. Please enter 1 or 2. *")
+                    print("\n* Invalid choice. Please enter 1 or 2. *")
 
     #Handle exceptions that might occur during the execution of the code 
     except Exception as e:
